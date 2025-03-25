@@ -10,6 +10,9 @@ import sys
 from spack.package import *
 from spack.pkg.builtin.kokkos import Kokkos
 from spack.pkg.trilinos.trilinos_base_class import TrilinosBaseClass
+from spack.pkg.trilinos.trilinos_base_class import depends_on_trilinos_package
+from spack.pkg.trilinos.trilinos_base_class import trilinos_variant
+from spack.pkg.trilinos.trilinos_base_class import list_of_trilinos_variants
 
 class TrilinosPanzer(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
@@ -34,8 +37,8 @@ class TrilinosPanzer(TrilinosBaseClass):
     conflicts("~mpi", when="+mini-em", msg="mpi must be enabled for mini EM to build")
     
     # ######################### TPLs #############################
-    depends_on("trilinos-teuchos")
-    depends_on("trilinos-tpetra")
+    depends_on_trilinos_package("trilinos-teuchos")
+    depends_on_trilinos_package("trilinos-tpetra")
     depends_on("kokkos-kernels")
     depends_on("trilinos-teuchos+mpi", when="+mpi")
     depends_on("trilinos-tpetra+mpi", when="+mpi")

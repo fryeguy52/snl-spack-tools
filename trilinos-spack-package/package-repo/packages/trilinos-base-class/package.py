@@ -7,6 +7,17 @@ from spack.package import *
 import llnl.util.filesystem as fs
 import spack.store
 
+list_of_trilinos_variants=[]
+
+def trilinos_variant(variant_name, default, description):
+    variant(variant_name, default=default, description=description)
+    list_of_trilinos_variants.append(variant_name)
+    
+def depends_on_trilinos_package(trilinos_package_name):
+    for t_variant in list_of_trilinos_variants:
+        depends_on(trilinos_package_name+"+"+t_variant, when="+"+t_variant)
+        depends_on(trilinos_package_name+"~"+t_variant, when="~"+t_variant)
+    
 class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
     """The Trilinos Project is an effort to develop algorithms and enabling
     technologies within an object-oriented software framework for the solution
@@ -41,22 +52,30 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
     variant("mpi", default=False, description="Enable mpi")
     variant("wrapper", default=False, description="use kokkos-nvcc-wrapper")
 
+    # List of variants we want to be the same between all packages built together
+    trilinos_variant("dummy", default=False, description="for testing")
+    trilinos_variant("my-cool-variant", default=False, description="for testing")
+    
     # ###################### Dependencies ##########################
+    depends_on("blas")
+    depends_on("lapack")
+    depends_on("kokkos@4.3.01")
+    depends_on("kokkos-kernels")
+    
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("fortran", type="build", when="+fortran")
     depends_on("mpi", when="+mpi")
-    depends_on("blas")
-    depends_on("lapack")
-    depends_on("kokkos@4.3.01")
     depends_on("kokkos-nvcc-wrapper", when="+wrapper")
 
     
     git_sparse_paths = []
+        
 
     def trilinos_base_cmake_args(self):
         args = []
         args.append("-DTPL_ENABLE_Kokkos=ON")
+        args.append("-DTPL_ENABLE_KokkosKernels=ON")
         args.append(self.define_from_variant("Trilinos_ENABLE_TESTS", "tests")),
         args.append(self.define_from_variant("CMAKE_CXX_STANDARD", "cxxstd")),
         

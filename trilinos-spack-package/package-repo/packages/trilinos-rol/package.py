@@ -14,7 +14,7 @@ from spack.pkg.trilinos.trilinos_base_class import depends_on_trilinos_package
 from spack.pkg.trilinos.trilinos_base_class import trilinos_variant
 from spack.pkg.trilinos.trilinos_base_class import list_of_trilinos_variants
 
-class TrilinosTpetra(TrilinosBaseClass):
+class TrilinosRol(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
     technologies within an object-oriented software framework for the solution
     of large-scale, complex multi-physics engineering and scientific problems.
@@ -27,17 +27,32 @@ class TrilinosTpetra(TrilinosBaseClass):
     # Handled in TrilinosBaseClass
     
     # ###################### Variants ##########################
+
+# Panzer stuff just an example    
+#    variant("adapters-stk", default=False, description="Enable Adapters STK")
+#    variant("disc-fe", default=False, description="Enable Disc FE")
+#    variant("dof-mgr", default=False, description="Enable DOF MGR")
+#    variant("expr-eval", default=False, description="Enable Expr Eval")
+#    variant("mini-em", default=False, description="Enable AMini EM")
+
+    # ######################### Conflicts #############################
+
     
     # ######################### TPLs #############################
     depends_on_trilinos_package("trilinos-teuchos")
 
     def trilinos_package_cmake_args(self):
         args = [
-        "-DTrilinos_ENABLE_Tpetra=ON",
-        "-DTPL_ENABLE_Kokkos=ON",
-        "-DTPL_ENABLE_KokkosKernels=ON",
+        "-DTrilinos_ENABLE_ROL=ON",
         "-DTPL_ENABLE_Teuchos=ON",
         ]
+
+        # panzer stuf f just an example remove these
+#        args.append(self.define_from_variant("Trilinos_ENABLE_PanzerAdaptersSTK", "adapters-stk"))
+#        args.append(self.define_from_variant("Trilinos_ENABLE_PanzerDiscFE", "disc-fe"))
+#        args.append(self.define_from_variant("Trilinos_ENABLE_PanzerDofMgr", "dof-mgr"))
+#        args.append(self.define_from_variant("Trilinos_ENABLE_PanzerExprEval", "expr-eval"))
+#        args.append(self.define_from_variant("Trilinos_ENABLE_PanzerMiniEM", "mini-em"))
 
         return args
 
