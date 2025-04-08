@@ -27,18 +27,22 @@ class TrilinosTpetra(TrilinosBaseClass):
     # Handled in TrilinosBaseClass
     
     # ###################### Variants ##########################
-    
+
+    #variant("", default=False, "")
+    #Tpetra_ENABLE_Distributor_Timings:BOOL=OFF
+    #Tpetra_ENABLE_MMM_Statistics:BOOL=OFF
+    #Tpetra_ENABLE_MMM_Timings:BOOL=OFF
+    #Tpetra_ENABLE_Reduced_ETI:BOOL=OFF
+
     # ######################### TPLs #############################
     depends_on_trilinos_package("trilinos-teuchos")
 
     def trilinos_package_cmake_args(self):
         args = [
         "-DTrilinos_ENABLE_Tpetra=ON",
-        "-DTPL_ENABLE_Kokkos=ON",
-        "-DTPL_ENABLE_KokkosKernels=ON",
         "-DTPL_ENABLE_Teuchos=ON",
         ]
-
+    
         return args
 
     def cmake_args(self):

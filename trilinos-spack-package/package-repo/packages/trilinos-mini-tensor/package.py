@@ -14,7 +14,7 @@ from spack.pkg.trilinos.trilinos_base_class import depends_on_trilinos_package
 from spack.pkg.trilinos.trilinos_base_class import trilinos_variant
 from spack.pkg.trilinos.trilinos_base_class import list_of_trilinos_variants
 
-class TrilinosRol(TrilinosBaseClass):
+class TrilinosMiniTensor(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
     technologies within an object-oriented software framework for the solution
     of large-scale, complex multi-physics engineering and scientific problems.
@@ -28,17 +28,15 @@ class TrilinosRol(TrilinosBaseClass):
     
     # ###################### Variants ##########################
 
-    
-    # ######################### Conflicts #############################
-
-    
     # ######################### TPLs #############################
     depends_on_trilinos_package("trilinos-teuchos")
-
+    depends_on_trilinos_package("trilinos-sacado")
+    
     def trilinos_package_cmake_args(self):
         args = [
-        "-DTrilinos_ENABLE_ROL=ON",
+        "-DTrilinos_ENABLE_MiniTensor=ON",
         "-DTPL_ENABLE_Teuchos=ON",
+        "-DTPL_ENABLE_Sacado=ON",
         ]
 
         return args
@@ -48,3 +46,6 @@ class TrilinosRol(TrilinosBaseClass):
         args.extend(self.trilinos_base_cmake_args())
         args.extend(self.trilinos_package_cmake_args())
         return args
+
+
+    

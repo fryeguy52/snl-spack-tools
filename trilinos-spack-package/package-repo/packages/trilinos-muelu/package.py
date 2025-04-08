@@ -14,7 +14,7 @@ from spack.pkg.trilinos.trilinos_base_class import depends_on_trilinos_package
 from spack.pkg.trilinos.trilinos_base_class import trilinos_variant
 from spack.pkg.trilinos.trilinos_base_class import list_of_trilinos_variants
 
-class TrilinosRol(TrilinosBaseClass):
+class TrilinosMuelu(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
     technologies within an object-oriented software framework for the solution
     of large-scale, complex multi-physics engineering and scientific problems.
@@ -33,12 +33,16 @@ class TrilinosRol(TrilinosBaseClass):
 
     
     # ######################### TPLs #############################
+    depends_on_trilinos_package("trilinos-xpetra")
+    depends_on_trilinos_package("trilinos-tpetra")
     depends_on_trilinos_package("trilinos-teuchos")
 
     def trilinos_package_cmake_args(self):
         args = [
-        "-DTrilinos_ENABLE_ROL=ON",
-        "-DTPL_ENABLE_Teuchos=ON",
+        "-DTrilinos_ENABLE_MueLu=ON",
+        "-DTPL_ENABLE_Xpetra=ON",
+        "-DTPL_ENABLE_Tpetra=ON",
+        "-DTPL_ENABLE_Tuechos=ON",
         ]
 
         return args

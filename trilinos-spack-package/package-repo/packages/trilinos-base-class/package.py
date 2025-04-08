@@ -36,9 +36,7 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
     version("develop", branch="develop")
     version("16.0.0", sha256="46bfc40419ed2aa2db38c144fb8e61d4aa8170eaa654a88d833ba6b92903f309")
     # ###################### Variants ##########################
-    variant(
-        "tests", default=False, description="Enable build of package's test executables"
-    )
+    variant("tests", default=False, description="Enable build of package's test executables")
 
     variant(
         "cxxstd",
@@ -47,15 +45,34 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
         multi=False,
         description="C++ standard to use when building",
     )
-    variant("tests", default=False, description="Enable testing")
-    variant("fortran", default=False, description="Enable fortran")
-    variant("mpi", default=False, description="Enable mpi")
-    variant("wrapper", default=False, description="use kokkos-nvcc-wrapper")
 
-    # List of variants we want to be the same between all packages built together
-    trilinos_variant("dummy", default=False, description="for testing")
-    trilinos_variant("my-cool-variant", default=False, description="for testing")
+    #Trilinos_ENABLE_ALL_FORWARD_DEP_PACKAGES:BOOL=OFF
+    #Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=ON
+    #Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF
+
+    #Trilinos_ENABLE_COMPLEX:BOOL=OFF
+    #Trilinos_ENABLE_COMPLEX_DOUBLE:BOOL=OFF
+    #Trilinos_ENABLE_COMPLEX_FLOAT:BOOL=OFF
+    #Trilinos_ENABLE_FLOAT:BOOL=OFF
+    #Trilinos_ENABLE_LONG_DOUBLE:BOOL=OFF
+
+
+    #Trilinos_ENABLE_INSTALLATION_TESTING:STRING=OFF
+    #Trilinos_ENABLE_SECONDARY_TESTED_CODE:BOOL=OFF
+
+    #Trilinos_ENABLE_INSTALL_CMAKE_CONFIG_FILES:BOOL=ON
+
+    #Trilinos_ENABLE_THREAD_SAFE:BOOL=OFF
+
     
+    # List of variants we want to be the same between all packages built together
+    trilinos_variant("mpi", default=True, description="Enable mpi")
+    trilinos_variant("fortran", default=False, description="Enable fortran")
+    trilinos_variant("wrapper", default=False, description="use kokkos-nvcc-wrapper")
+    trilinos_variant("openmp", default=False, description="use openmp")
+    trilinos_variant("explicit-instantiation", default=False, description="use explicit instantiation")
+    trilinos_variant("all-optional-packages", default=False, description="Enable all optional packages")
+
     # ###################### Dependencies ##########################
     depends_on("blas")
     depends_on("lapack")
@@ -76,8 +93,13 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
         args = []
         args.append("-DTPL_ENABLE_Kokkos=ON")
         args.append("-DTPL_ENABLE_KokkosKernels=ON")
-        args.append(self.define_from_variant("Trilinos_ENABLE_TESTS", "tests")),
-        args.append(self.define_from_variant("CMAKE_CXX_STANDARD", "cxxstd")),
+        args.append(self.define_from_variant("Trilinos_ENABLE_TESTS", "tests"))
+        args.append(self.define_from_variant("Trilinos_ENABLE_INSTALLATION_TESTING", "tests"))
+        args.append(self.define_from_variant("CMAKE_CXX_STANDARD", "cxxstd"))
+        args.append(self.define_from_variant("Trilinos_ENABLE_OpenMP", "openmp"))
+        args.append(self.define_from_variant("Trilinos_ENABLE_EXPLICIT_INSTANTIATION", "explicit-instantiation"))
+        args.append(self.define_from_variant("Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES", "all-optional-packages"))
+
         
         if "^openblas" in self.spec:
             args.append(f"-DBLAS_LIBRARY_NAMES=openblas")
@@ -87,6 +109,4 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
     
     def cmake_args(self):
         return []
-
-#    def trilinos_dependency(package_name, self):
 
