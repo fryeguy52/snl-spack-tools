@@ -9,10 +9,10 @@ import sys
 
 from spack.package import *
 from spack.pkg.builtin.kokkos import Kokkos
-from spack.pkg.trilinos.trilinos_base_class import TrilinosBaseClass
-from spack.pkg.trilinos.trilinos_base_class import depends_on_trilinos_package
-from spack.pkg.trilinos.trilinos_base_class import trilinos_variant
-from spack.pkg.trilinos.trilinos_base_class import list_of_trilinos_variants
+from ..trilinos_base_class.package import TrilinosBaseClass
+from ..trilinos_base_class.package import depends_on_trilinos_package
+from ..trilinos_base_class.package import trilinos_variant
+from ..trilinos_base_class.package import list_of_trilinos_variants
 
 class TrilinosAmesos2(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
