@@ -8,7 +8,7 @@ import re
 import sys
 
 from spack.package import *
-from spack.pkg.builtin.kokkos import Kokkos
+
 from ..trilinos_base_class.package import TrilinosBaseClass
 from ..trilinos_base_class.package import depends_on_trilinos_package
 from ..trilinos_base_class.package import trilinos_variant
