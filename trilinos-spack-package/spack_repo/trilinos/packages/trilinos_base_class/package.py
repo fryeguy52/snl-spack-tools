@@ -81,7 +81,7 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
     trilinos_variant("fortran", default=False, description="Enable fortran")
     trilinos_variant("wrapper", default=False, description="use kokkos-nvcc-wrapper")
     trilinos_variant("openmp", default=False, description="use openmp")
-    trilinos_variant("explicit-instantiation", default=False, description="use explicit instantiation")
+    trilinos_variant("explicit-instantiation", default=True, description="use explicit instantiation")
     trilinos_variant("all-optional-packages", default=False, description="Enable all optional packages")
 
     # ###################### Dependencies ##########################
@@ -106,18 +106,18 @@ class TrilinosBaseClass(CMakePackage, CudaPackage, ROCmPackage):
         args.append("-DTPL_ENABLE_KokkosKernels=ON")
 
         # Depricated Packages
-        args.append("Trilinos_ENABLE_AztecOO=OFF")
-        args.append("Trilinos_ENABLE_Isorropia=OFF")
-        args.append("Trilinos_ENABLE_Amesos=OFF")
-        args.append("Trilinos_ENABLE_Pliris=OFF")
-        args.append("Trilinos_ENABLE_EpetraExt=OFF")
-        args.append("Trilinos_ENABLE_Epetra=OFF")
-        args.append("Trilinos_ENABLE_Ifpack=OFF")
-        args.append("Trilinos_ENABLE_Amesos=OFF")
-        args.append("Trilinos_ENABLE_Triutils=OFF")
-        args.append("Trilinos_ENABLE_PyTrilinos=OFF")
-        args.append("Trilinos_ENABLE_Intrepid=OFF")
-        args.append("Trilinos_ENABLE_ML=OFF")
+        args.append("-DTrilinos_ENABLE_AztecOO=OFF")
+        args.append("-DTrilinos_ENABLE_Isorropia=OFF")
+        args.append("-DTrilinos_ENABLE_Amesos=OFF")
+        args.append("-DTrilinos_ENABLE_Pliris=OFF")
+        args.append("-DTrilinos_ENABLE_EpetraExt=OFF")
+        args.append("-DTrilinos_ENABLE_Epetra=OFF")
+        args.append("-DTrilinos_ENABLE_Ifpack=OFF")
+        args.append("-DTrilinos_ENABLE_Amesos=OFF")
+        args.append("-DTrilinos_ENABLE_Triutils=OFF")
+        args.append("-DTrilinos_ENABLE_PyTrilinos=OFF")
+        args.append("-DTrilinos_ENABLE_Intrepid=OFF")
+        args.append("-DTrilinos_ENABLE_ML=OFF")
 
         # Definitions from variants
         args.append(self.define_from_variant("Trilinos_ENABLE_TESTS", "tests"))

@@ -38,6 +38,11 @@ class TrilinosPytrilinos2(TrilinosBaseClass):
     depends_on_trilinos_package("trilinos-teuchos")
     depends_on_trilinos_package("trilinos-thyra")
     depends_on_trilinos_package("trilinos-muelu")
+    depends_on("binder")
+    depends_on("python")
+    depends_on("py-pybind11")
+    depends_on("py-numpy")
+    depends_on("py-mpi4py")
 
     def trilinos_package_cmake_args(self):
         args = [

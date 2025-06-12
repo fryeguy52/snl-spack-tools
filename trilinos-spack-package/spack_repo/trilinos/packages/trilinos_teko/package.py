@@ -39,6 +39,7 @@ class TrilinosTeko(TrilinosBaseClass):
     depends_on_trilinos_package("trilinos-thyra")
     depends_on_trilinos_package("trilinos-anasazi")
     depends_on_trilinos_package("trilinos-ifpack2")
+    depends_on_trilinos_package("trilinos-galeri")
 
     def trilinos_package_cmake_args(self):
         args = [
@@ -49,6 +50,7 @@ class TrilinosTeko(TrilinosBaseClass):
         "-DTPL_ENABLE_Thyra=ON",
         "-DTPL_ENABLE_Anasazi=ON",
         "-DTPL_ENABLE_Ifpack2=ON",
+        "-DTPL_ENABLE_Galeri=ON",
         ]
 
         return args

@@ -14,7 +14,7 @@ from ..trilinos_base_class.package import depends_on_trilinos_package
 from ..trilinos_base_class.package import trilinos_variant
 from ..trilinos_base_class.package import list_of_trilinos_variants
 
-class TrilinosXpetra(TrilinosBaseClass):
+class TrilinosStk(TrilinosBaseClass):
     """The Trilinos Project is an effort to develop algorithms and enabling
     technologies within an object-oriented software framework for the solution
     of large-scale, complex multi-physics engineering and scientific problems.
@@ -28,17 +28,25 @@ class TrilinosXpetra(TrilinosBaseClass):
     
     # ###################### Variants ##########################
 
+    
+    # ######################### Conflicts #############################
+
+    
     # ######################### TPLs #############################
     depends_on_trilinos_package("trilinos-teuchos")
-    depends_on_trilinos_package("trilinos-tpetra")
-
+    depends_on_trilinos_package("trilinos-shards")
+    depends_on_trilinos_package("trilinos-gtest")
+    depends_on_trilinos_package("trilinos-zoltan2")
+    depends_on("seacas")
     def trilinos_package_cmake_args(self):
         args = [
-        "-DTrilinos_ENABLE_Xpetra=ON",
+        "-DTrilinos_ENABLE_STK=ON",
         "-DTPL_ENABLE_Teuchos=ON",
-        "-DTPL_ENABLE_Tpetra=ON",
+        "-DTPL_ENABLE_Gtest=ON",
+        "-DTPL_ENABLE_Zoltan2=ON",
+        "-DTPL_ENABLE_Shards=ON",
         ]
-    
+
         return args
 
     def cmake_args(self):
